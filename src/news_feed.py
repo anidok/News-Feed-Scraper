@@ -1,13 +1,11 @@
 from typing import List
 from newspaper import news_pool
 from news_paper import NewsPaper
-from output import JsonObjectOutputHandler
 
 
 class NewsFeed:
-    def __init__(self, papers: List[NewsPaper] = None, json_object_output_handler: JsonObjectOutputHandler = None):
+    def __init__(self, papers: List[NewsPaper] = None):
         self.newspapers = papers if papers is not None else []
-        self.json_object_output_handler = json_object_output_handler
 
     def add_newspaper(self, paper):
         self.newspapers.append(paper)
