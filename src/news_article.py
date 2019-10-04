@@ -1,10 +1,11 @@
-from model import Model
 from datetime import datetime
+from model import Model
 from json_pickle_decimal import JsonPickleDecimal
 
-class NewsArticle(Model):
-    OUTPUT_ATTRS = ['authors', 'source', 'current_date', 'publish_date', 'title', 'body' 'topics']
 
+# pylint: disable=too-many-instance-attributes
+class NewsArticle(Model):
+    OUTPUT_ATTRS = ['authors', 'source', 'current_date', 'publish_date', 'title', 'body', 'topics']
 
     def __init__(self, *initial_data, **kwargs):
         self.url = None
@@ -17,8 +18,8 @@ class NewsArticle(Model):
         self.title = None
         self.body = None
         self.category = None
-        self.topics = None        
-        
+        self.topics = None
+
         super().__init__(*initial_data, **kwargs)
 
     def serialize(self) -> str:
@@ -45,5 +46,3 @@ class NewsArticle(Model):
         self.title = article.title
         self.body = article.text
         self.topics = article.keywords
-
-    

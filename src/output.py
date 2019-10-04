@@ -2,12 +2,12 @@ import os
 import abc
 from datetime import date
 
-class OutputHandler:
-    def accept(self, rows):
+
+class OutputHandler(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def accept(self, json_obj, json_str):
         raise NotImplementedError
 
-    def close(self):
-        pass
 
 class JsonObjectOutputHandler(OutputHandler):
     def __init__(self, output_root_dir=None, object_name_generator=None):
@@ -17,7 +17,6 @@ class JsonObjectOutputHandler(OutputHandler):
             object_name_generator = NewsArticleJsonObjectNameGenerator(self.output_root_dir)
 
         self.object_name_generator = object_name_generator
-
 
     def accept(self, json_obj, json_str):
         file_name = self.object_name_generator.format_filename(json_obj)
@@ -35,7 +34,6 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
             self.output_root_dir = output_root_dir
         self.output_dir = self.create_output_directory()
 
-
     def create_output_directory(self):
         today = date.today()
         dir_suffix = today.strftime("%Y-%m-%d")
@@ -45,7 +43,6 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
             os.makedirs(output_dir)
 
         return output_dir
-
 
     @abc.abstractmethod
     def format_filename(self, json_obj):
@@ -59,7 +56,6 @@ class NewsArticleJsonObjectNameGenerator(JsonObjectNameGenerator):
         source = json_obj['source']
         publish_date = json_obj['publish_date']
         publish_date = self.date_to_string(publish_date)
-        
 
         filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_date, self.SUFFIX)
         return filename

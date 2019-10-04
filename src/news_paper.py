@@ -1,11 +1,13 @@
+from typing import List
 import newspaper
 from news_article import NewsArticle
 from output import JsonObjectOutputHandler
 
+
 class NewsPaper:
-    def __init__(self, url, json_object_output_handler: JsonObjectOutputHandler, memoize_articles: bool=False):
+    def __init__(self, url, json_object_output_handler: JsonObjectOutputHandler, memoize_articles: bool = False):
         self.brand = None
-        self.articles: list = None
+        self.articles: List = []
         self.article_count = None
 
         self.json_object_output_handler = json_object_output_handler
