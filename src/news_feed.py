@@ -1,9 +1,11 @@
 from news_paper import NewsPaper
 from newspaper import news_pool
+from output import JsonObjectOutputHandler
 
 class NewsFeed:
-    def __init__(self, papers: list):
+    def __init__(self, papers: list, json_object_output_handler: JsonObjectOutputHandler):
         self.newspapers: list[NewsPaper] = papers
+        self.json_object_output_handler = json_object_output_handler
 
     def add_newspaper(self, paper):
         self.newspapers.append(paper)

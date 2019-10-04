@@ -10,7 +10,7 @@ class OutputHandler:
         pass
 
 class JsonObjectOutputHandler(OutputHandler):
-    def __init__(self, output_root_dir, object_name_generator=None):
+    def __init__(self, output_root_dir=None, object_name_generator=None):
         self.output_root_dir = output_root_dir
 
         if object_name_generator is None:
@@ -30,12 +30,12 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
 
     def __init__(self, output_root_dir=None):
         if output_root_dir is None:
-            self.output_root_dir = ''
-        self.output_root_dir = output_root_dir
+            self.output_root_dir = '.'
+        else:
+            self.output_root_dir = output_root_dir
         self.output_dir = self.create_output_directory()
 
-    
-    @abc.abstractmethod
+
     def create_output_directory(self):
         today = date.today()
         dir_suffix = today.strftime("%Y-%m-%d")
@@ -53,10 +53,16 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
 
 
 class NewsArticleJsonObjectNameGenerator(JsonObjectNameGenerator):
+    DATE_FORMAT = '%Y-%m-%dT%H.%M.%S'
+
     def format_filename(self, json_obj):
         source = json_obj['source']
         publish_date = json_obj['publish_date']
+        publish_date = self.date_to_string(publish_date)
+        
 
-        filename = "{0}{1}_{2}.{3}".format(self.output_dir, source, publish_date, self.SUFFIX)
-
+        filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_date, self.SUFFIX)
         return filename
+
+    def date_to_string(self, publish_date):
+        return publish_date.strftime(self.DATE_FORMAT)
