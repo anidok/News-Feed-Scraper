@@ -17,7 +17,7 @@ class OutputHandler(metaclass=abc.ABCMeta):
 
 
 class JsonObjectOutputHandler(OutputHandler):
-    def __init__(self, output_root_dir=None, object_name_generator=None, file_writer: FileWriter = None):
+    def __init__(self, output_root_dir=None, file_writer: FileWriter = None, object_name_generator=None):
         self.output_root_dir = output_root_dir
 
         if object_name_generator is None:
