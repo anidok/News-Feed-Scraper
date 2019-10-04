@@ -3,6 +3,13 @@ import abc
 from datetime import date
 
 
+class FileWriter:
+    @staticmethod
+    def write(filename, data):
+        with open(filename, 'w') as f:
+            f.write(data)
+
+
 class OutputHandler(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def accept(self, json_obj, json_str):
@@ -10,18 +17,18 @@ class OutputHandler(metaclass=abc.ABCMeta):
 
 
 class JsonObjectOutputHandler(OutputHandler):
-    def __init__(self, output_root_dir=None, object_name_generator=None):
+    def __init__(self, output_root_dir=None, object_name_generator=None, file_writer: FileWriter = None):
         self.output_root_dir = output_root_dir
 
         if object_name_generator is None:
             object_name_generator = NewsArticleJsonObjectNameGenerator(self.output_root_dir)
 
         self.object_name_generator = object_name_generator
+        self.file_writer = file_writer if file_writer is not None else FileWriter()
 
     def accept(self, json_obj, json_str):
         file_name = self.object_name_generator.format_filename(json_obj)
-        with open(file_name, 'w') as f:
-            f.write(json_str)
+        self.file_writer.write(file_name, json_str)
 
 
 class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
