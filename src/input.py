@@ -1,10 +1,12 @@
 import argparse
 import abc
 
+
 class InputHandler(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def parse_arguements(self):
         raise NotImplementedError
+
 
 class NewsFeedInputHandler(InputHandler):
     ARGUMENT_PREFIX = '--'
@@ -33,6 +35,3 @@ class NewsFeedInputHandler(InputHandler):
             source_list = [line.strip() for line in file]
 
         return source_list
-
-
-

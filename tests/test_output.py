@@ -1,9 +1,9 @@
 import unittest
 import json
 from datetime import datetime
-from mockito import mock, unstub, when, kwargs, verify, ANY
+from mockito import mock, unstub, verify, ANY
 from tests import datetime_converter
-from src.output import FileWriter, JsonObjectOutputHandler
+from src.output import JsonObjectOutputHandler
 
 
 class TestOutput(unittest.TestCase):
