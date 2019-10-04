@@ -16,19 +16,22 @@ class NewsFeedInputHandler(InputHandler):
         self.parser = parser if parser is not None else argparse.ArgumentParser()
         self.source_list_path = None
 
-    def parse_arguements(self):
+    def fetch_arguments(self):
+        self.parse_arguements()
+        return self.args_dict()
+
+    def parse_arguements(self):    
         for argument in self.PARSE_ARGUMENTS:
             argument = self.ARGUMENT_PREFIX + argument
             self.parser.add_argument(argument, required=True)
 
+    def args_dict(self):
         args = vars(self.parser.parse_args())
 
-        root_dir = args[self.PARSE_ARGUMENTS[0]]
         source_list_path = args[self.PARSE_ARGUMENTS[1]]
-
         self.source_list_path = source_list_path
 
-        return root_dir, source_list_path
+        return args
 
     def get_all_sources(self) -> list:
         with open(self.source_list_path, 'r') as file:
