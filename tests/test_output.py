@@ -10,10 +10,11 @@ class TestOutput(unittest.TestCase):
 
     def setUp(self):
         self.mock_file_writer = mock()
+        self.mock_mongo_connection = mock()
 
     def test_csv_output_writer(self):
         output_root_dir = 'F:/Test'
-        target = JsonObjectOutputHandler(output_root_dir, self.mock_file_writer)
+        target = JsonObjectOutputHandler(output_root_dir, self.mock_mongo_connection, self.mock_file_writer)
 
         source = 'cnn'
         publish_date = datetime.now()
@@ -25,6 +26,7 @@ class TestOutput(unittest.TestCase):
 
         target.accept(article, article_str)
         verify(self.mock_file_writer).write(ANY, article_str)
+        verify(self.mock_mongo_connection).insert_one(article, 'articles')
 
     def tearDown(self):
         unstub()

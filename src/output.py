@@ -1,6 +1,7 @@
 import os
 import abc
 from datetime import date
+from .mongo_connection import MongoConnection
 
 
 class FileWriter:
@@ -17,8 +18,11 @@ class OutputHandler(metaclass=abc.ABCMeta):
 
 
 class JsonObjectOutputHandler(OutputHandler):
-    def __init__(self, output_root_dir=None, file_writer: FileWriter = None, object_name_generator=None):
+    MONGO_COLLECTION = 'articles'
+
+    def __init__(self, output_root_dir=None, mongo_connection: MongoConnection = None, file_writer: FileWriter = None,  object_name_generator=None):
         self.output_root_dir = output_root_dir
+        self.mongo_connection = mongo_connection
 
         if object_name_generator is None:
             object_name_generator = NewsArticleJsonObjectNameGenerator(self.output_root_dir)
@@ -29,6 +33,7 @@ class JsonObjectOutputHandler(OutputHandler):
     def accept(self, json_obj, json_str):
         file_name = self.object_name_generator.format_filename(json_obj)
         self.file_writer.write(file_name, json_str)
+        self.mongo_connection.insert_one(json_obj, self.MONGO_COLLECTION)
 
 
 class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
