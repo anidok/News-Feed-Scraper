@@ -38,7 +38,6 @@ class NewsApp:
             logging.info('Scraping completed successfully.')
             logging.info("Errored out articles count: %d", len(self.error_logs))
 
-
             end_time = datetime.now()
             logging.info("End Time: %s", end_time)
 

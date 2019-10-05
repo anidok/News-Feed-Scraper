@@ -7,6 +7,7 @@ from article_error_log import ArticleErrorLog
 
 
 class NewsPaper:
+    # pylint: disable=too-many-instance-attributes
     def __init__(self, url, json_object_output_handler: JsonObjectOutputHandler, error_logs: List[ArticleErrorLog], memoize_articles: bool = False):
         self.brand = None
         self.articles: List = []
