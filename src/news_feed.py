@@ -1,3 +1,5 @@
+import logging
+from datetime import datetime
 from typing import List
 from newspaper import news_pool
 from news_paper import NewsPaper
@@ -24,7 +26,8 @@ class NewsFeed:
         papers = self.create_source_feed_list()
         news_pool.set(papers, threads_per_source=self.THREADS_PER_NEWS_SOURCE)
         news_pool.join()
-        print("Downloaded all news articles.")
+        logging.info("Downloaded all news articles.")
+        logging.info(datetime.now())
 
     def create_source_feed_list(self):
         papers = []

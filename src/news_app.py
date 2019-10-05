@@ -6,13 +6,14 @@ from input import NewsFeedInputHandler
 from output import JsonObjectOutputHandler
 from news_paper import NewsPaper
 from news_feed import NewsFeed
+from article_error_log import ArticleErrorLog
 
 
 class NewsApp:
     DEFAULT_LOG_LEVEL = 'INFO'
 
     def __init__(self):
-        pass
+        self.error_logs: List[ArticleErrorLog] = []
 
     def accept(self):
         self.apply_logging_level()
@@ -35,6 +36,8 @@ class NewsApp:
             news_feed.build()
 
             logging.info('Scraping completed successfully.')
+            logging.info("Errored out articles count: %d", len(self.error_logs))
+
 
             end_time = datetime.now()
             logging.info("End Time: %s", end_time)
@@ -63,10 +66,9 @@ class NewsApp:
 
         return log_level_env
 
-    @staticmethod
-    def create_newspaper_objects(source_list, json_object_output_handler):
+    def create_newspaper_objects(self, source_list, json_object_output_handler):
         papers: List[NewsPaper] = []
         for source in source_list:
-            papers.append(NewsPaper(source, json_object_output_handler))
+            papers.append(NewsPaper(source, json_object_output_handler, self.error_logs))
 
         return papers
