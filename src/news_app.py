@@ -1,3 +1,6 @@
+import os
+import logging
+from datetime import datetime
 from typing import List
 from input import NewsFeedInputHandler
 from output import JsonObjectOutputHandler
@@ -6,21 +9,59 @@ from news_feed import NewsFeed
 
 
 class NewsApp:
+    DEFAULT_LOG_LEVEL = 'INFO'
+
     def __init__(self):
         pass
 
     def accept(self):
-        news_feed_input_handler = NewsFeedInputHandler()
-        args_map = news_feed_input_handler.fetch_arguments()
+        self.apply_logging_level()
 
-        root_dir = args_map['root_dir']
-        source_list = news_feed_input_handler.get_all_sources()
-        json_object_output_handler = JsonObjectOutputHandler(output_root_dir=root_dir)
+        start_time = datetime.now()
+        logging.info("Start Time: %s", start_time)
+        logging.info('Started scraping from all sources.')
 
-        papers = self.create_newspaper_objects(source_list, json_object_output_handler)
+        try:
+            news_feed_input_handler = NewsFeedInputHandler()
+            args_map = news_feed_input_handler.fetch_arguments()
 
-        news_feed = NewsFeed(papers)
-        news_feed.build()
+            root_dir = args_map['root_dir']
+            source_list = news_feed_input_handler.get_all_sources()
+            json_object_output_handler = JsonObjectOutputHandler(output_root_dir=root_dir)
+
+            papers = self.create_newspaper_objects(source_list, json_object_output_handler)
+
+            news_feed = NewsFeed(papers)
+            news_feed.build()
+
+            logging.info('Scraping completed successfully.')
+
+            end_time = datetime.now()
+            logging.info("End Time: %s", end_time)
+
+            elapsed = (end_time - start_time).seconds
+            logging.info("Total elapsed time: %s", elapsed)
+
+        except Exception as exception:
+            logging.exception("Error occured during scraping ", exc_info=exception)
+
+            elapsed = (end_time - start_time).seconds
+            logging.info("Total elapsed time: %s", elapsed)
+
+
+    @classmethod
+    def apply_logging_level(cls):
+        logger = logging.getLogger()
+        logger.setLevel(cls.get_logging_level())
+
+    @classmethod
+    def get_logging_level(cls):
+        log_level_env = os.environ.get('LOGLEVEL')
+
+        if log_level_env is None:
+            return cls.DEFAULT_LOG_LEVEL
+
+        return log_level_env
 
     @staticmethod
     def create_newspaper_objects(source_list, json_object_output_handler):
