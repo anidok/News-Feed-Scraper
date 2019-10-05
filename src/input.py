@@ -18,14 +18,14 @@ class NewsFeedInputHandler(InputHandler):
 
     def fetch_arguments(self):
         self.parse_arguements()
-        return self.args_dict()
+        return self.args_map()
 
     def parse_arguements(self):    
         for argument in self.PARSE_ARGUMENTS:
             argument = self.ARGUMENT_PREFIX + argument
             self.parser.add_argument(argument, required=True)
 
-    def args_dict(self):
+    def args_map(self):
         args = vars(self.parser.parse_args())
 
         source_list_path = args[self.PARSE_ARGUMENTS[1]]
