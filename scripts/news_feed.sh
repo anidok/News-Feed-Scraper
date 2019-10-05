@@ -1,0 +1,1 @@
+python src/news_scrapper.py --root_dir F:/Scraper/Articles --source_list F:/Scraper/news_source.txt
