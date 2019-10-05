@@ -42,12 +42,12 @@ class NewsApp:
             elapsed = (end_time - start_time).seconds
             logging.info("Total elapsed time: %s", elapsed)
 
+        # pylint: disable=broad-except
         except Exception as exception:
             logging.exception("Error occured during scraping ", exc_info=exception)
 
             elapsed = (end_time - start_time).seconds
             logging.info("Total elapsed time: %s", elapsed)
-
 
     @classmethod
     def apply_logging_level(cls):
