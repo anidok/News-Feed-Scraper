@@ -31,7 +31,7 @@ class NewsPaper:
 
             # pylint: disable=broad-except
             except Exception as exception:
-                logging.exception("Error occured while parsing article.", exc_info=exception)
+                # logging.exception("Error occured while parsing article.", exc_info=exception)
                 self.add_error_log(self.url, self.brand, exception)
 
     def add_error_log(self, url, source, message):

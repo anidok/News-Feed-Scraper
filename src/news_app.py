@@ -11,6 +11,7 @@ from article_error_log import ArticleErrorLog
 
 class NewsApp:
     DEFAULT_LOG_LEVEL = 'INFO'
+    ERROR_LOG_FILE = 'error_logs.txt'
 
     def __init__(self):
         self.error_logs: List[ArticleErrorLog] = []
@@ -33,7 +34,10 @@ class NewsApp:
             papers = self.create_newspaper_objects(source_list, json_object_output_handler)
 
             news_feed = NewsFeed(papers, root_dir)
+
+            # Start processing the articles
             news_feed.build()
+            self.generate_error_logs(root_dir)
 
             logging.info('Scraping completed successfully.')
             logging.info("Errored out articles count: %d", len(self.error_logs))
@@ -72,3 +76,12 @@ class NewsApp:
             papers.append(NewsPaper(source, json_object_output_handler, self.error_logs))
 
         return papers
+
+    def generate_error_logs(self, output_root_dir):
+        error_log_file_path = output_root_dir + '/' + self.ERROR_LOG_FILE
+        count = 1
+
+        with open(error_log_file_path, 'w') as file:
+            for error_log in self.error_logs:
+                file.write("{0}.{1}|{2}|{3}\n".format(count, error_log.url, error_log.source, error_log.error_message))
+                count += 1
