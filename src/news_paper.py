@@ -1,4 +1,3 @@
-import logging
 from typing import List
 import newspaper
 from news_article import NewsArticle

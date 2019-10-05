@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any
 import logging
 from pymongo import MongoClient
 from .mongo_connection_settings import MongoConnectionSettings
@@ -29,6 +29,7 @@ class MongoConnection:
             self.client = MongoClient(connection_string)
             self.database = self.client[database]
             logging.info("Successfully connected to mongo database.")
+        # pylint: disable=broad-except
         except Exception as ex:
             logging.warning('A warning was emitted connecting to database', exc_info=ex)
 

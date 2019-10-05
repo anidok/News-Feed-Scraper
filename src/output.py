@@ -20,7 +20,7 @@ class OutputHandler(metaclass=abc.ABCMeta):
 class JsonObjectOutputHandler(OutputHandler):
     MONGO_COLLECTION = 'articles'
 
-    def __init__(self, output_root_dir=None, mongo_connection: MongoConnection = None, file_writer: FileWriter = None,  object_name_generator=None):
+    def __init__(self, output_root_dir=None, mongo_connection: MongoConnection = None, file_writer: FileWriter = None, object_name_generator=None):
         self.output_root_dir = output_root_dir
         self.mongo_connection = mongo_connection
 
