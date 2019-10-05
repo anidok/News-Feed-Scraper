@@ -4,12 +4,13 @@ from output import JsonObjectOutputHandler
 from news_paper import NewsPaper
 from news_feed import NewsFeed
 
+
 class NewsApp:
     def __init__(self):
         pass
 
     def accept(self):
-        news_feed_input_handler = NewsFeedInputHandler()        
+        news_feed_input_handler = NewsFeedInputHandler()
         args_map = news_feed_input_handler.fetch_arguments()
 
         root_dir = args_map['root_dir']
@@ -28,4 +29,3 @@ class NewsApp:
             papers.append(NewsPaper(source, json_object_output_handler))
 
         return papers
-

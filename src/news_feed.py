@@ -34,7 +34,7 @@ class NewsFeed:
         return papers
 
     def populate_attributes_to_newspapers(self):
-        for news_paper in self.newspapers:        
+        for news_paper in self.newspapers:
             news_paper.brand = news_paper.paper.brand
             news_paper.articles = news_paper.paper.articles
             news_paper.article_count = len(news_paper.articles)

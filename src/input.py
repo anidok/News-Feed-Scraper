@@ -20,7 +20,7 @@ class NewsFeedInputHandler(InputHandler):
         self.parse_arguements()
         return self.args_map()
 
-    def parse_arguements(self):    
+    def parse_arguements(self):
         for argument in self.PARSE_ARGUMENTS:
             argument = self.ARGUMENT_PREFIX + argument
             self.parser.add_argument(argument, required=True)
