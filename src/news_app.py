@@ -32,7 +32,7 @@ class NewsApp:
 
             papers = self.create_newspaper_objects(source_list, json_object_output_handler)
 
-            news_feed = NewsFeed(papers)
+            news_feed = NewsFeed(papers, root_dir)
             news_feed.build()
 
             logging.info('Scraping completed successfully.')
@@ -49,6 +49,7 @@ class NewsApp:
         except Exception as exception:
             logging.exception("Error occured during scraping ", exc_info=exception)
 
+            end_time = datetime.now()
             elapsed = (end_time - start_time).seconds
             logging.info("Total elapsed time: %s", elapsed)
 
