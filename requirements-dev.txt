@@ -1,4 +1,6 @@
-
+newspaper3k==0.2.8
+jsonpickle==1.1.0
+simplejson==3.16.0
 
 # Dev specific dependencies
 pylint==2.3.0
