@@ -2,6 +2,7 @@ from datetime import datetime
 from .model import Model
 from .json_pickle_decimal import JsonPickleDecimal
 
+
 # pylint: disable=too-many-instance-attributes
 class NewsArticle(Model):
     OUTPUT_ATTRS = ['authors', 'source', 'current_date', 'publish_date', 'publish_time', 'publish_datetime', 'title', 'body', 'topics']

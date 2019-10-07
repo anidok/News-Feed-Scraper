@@ -20,7 +20,7 @@ class NewsPaper:
         self.paper = newspaper.build(self.url, memoize_articles=self.memoize_articles)
 
     def process_articles(self):
-        for article in self.articles:            
+        for article in self.articles:
             try:
                 news_article = NewsArticle(url=self.url, source=self.brand, source_article=article)
                 news_article.build()
