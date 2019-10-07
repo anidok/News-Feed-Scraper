@@ -1,7 +1,7 @@
 import os
 import logging
 from typing import List
-from datetime import datetime
+from datetime import datetime, date
 from environs import Env
 from .input import NewsFeedInputHandler
 from .output import JsonObjectOutputHandler
@@ -91,7 +91,9 @@ class NewsApp:
         return papers
 
     def generate_error_logs(self, output_root_dir):
-        error_log_file_path = output_root_dir + '/' + self.ERROR_LOG_FILE
+        today = date.today()
+        dir_suffix = today.strftime("%Y-%m-%d")
+        error_log_file_path = output_root_dir + '/' + dir_suffix + '/' + self.ERROR_LOG_FILE
         count = 1
 
         with open(error_log_file_path, 'w') as file:

@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, date
 from typing import List
 from newspaper import news_pool
 from .news_paper import NewsPaper
@@ -51,7 +51,9 @@ class NewsFeed:
             newspaper.process_articles()
 
     def summarize_articles(self):
-        summary_file_path = self.output_root_dir + '/' + self.SUMMARY_FILE
+        today = date.today()
+        dir_suffix = today.strftime("%Y-%m-%d")
+        summary_file_path = self.output_root_dir + '/' + dir_suffix + '/' + self.SUMMARY_FILE
         with open(summary_file_path, 'w') as file:
             for news_paper in self.newspapers:
                 file.write("{0} - {1}\n".format(news_paper.brand, news_paper.article_count))
