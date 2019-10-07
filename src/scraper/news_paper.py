@@ -1,8 +1,9 @@
+import traceback
 from typing import List
 import newspaper
-from news_article import NewsArticle
-from output import JsonObjectOutputHandler
-from article_error_log import ArticleErrorLog
+from .news_article import NewsArticle
+from .output import JsonObjectOutputHandler
+from .article_error_log import ArticleErrorLog
 
 
 class NewsPaper:
@@ -19,7 +20,7 @@ class NewsPaper:
         self.paper = newspaper.build(self.url, memoize_articles=self.memoize_articles)
 
     def process_articles(self):
-        for article in self.articles:
+        for article in self.articles:            
             try:
                 news_article = NewsArticle(url=self.url, source=self.brand, source_article=article)
                 news_article.build()
@@ -29,9 +30,9 @@ class NewsPaper:
                 self.json_object_output_handler.accept(json_obj, json_str)
 
             # pylint: disable=broad-except
-            except Exception as exception:
-                # logging.exception("Error occured while parsing article.", exc_info=exception)
-                self.add_error_log(self.url, self.brand, exception)
+            except Exception:
+                exception_traceback = traceback.format_exc()
+                self.add_error_log(self.url, self.brand, exception_traceback)
 
     def add_error_log(self, url, source, message):
         error_log = ArticleErrorLog(url, source, message)

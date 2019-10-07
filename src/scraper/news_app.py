@@ -3,13 +3,13 @@ import logging
 from typing import List
 from datetime import datetime
 from environs import Env
-from input import NewsFeedInputHandler
-from output import JsonObjectOutputHandler
-from news_paper import NewsPaper
-from news_feed import NewsFeed
-from article_error_log import ArticleErrorLog
-from mongo_connection_settings import MongoConnectionSettings
-from mongo_connection import MongoConnection
+from .input import NewsFeedInputHandler
+from .output import JsonObjectOutputHandler
+from .news_paper import NewsPaper
+from .news_feed import NewsFeed
+from .article_error_log import ArticleErrorLog
+from .mongo_connection_settings import MongoConnectionSettings
+from .mongo_connection import MongoConnection
 
 
 class NewsApp:

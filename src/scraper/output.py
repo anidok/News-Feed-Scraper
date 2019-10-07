@@ -19,6 +19,7 @@ class OutputHandler(metaclass=abc.ABCMeta):
 
 class JsonObjectOutputHandler(OutputHandler):
     MONGO_COLLECTION = 'articles'
+    DB_SEARCH_PARAMETERS = ['title', 'publish_date']
 
     def __init__(self, output_root_dir=None, mongo_connection: MongoConnection = None, file_writer: FileWriter = None, object_name_generator=None):
         self.output_root_dir = output_root_dir
@@ -33,7 +34,18 @@ class JsonObjectOutputHandler(OutputHandler):
     def accept(self, json_obj, json_str):
         file_name = self.object_name_generator.format_filename(json_obj)
         self.file_writer.write(file_name, json_str)
-        self.mongo_connection.insert_one(json_obj, self.MONGO_COLLECTION)
+        self.store_into_database(json_obj)
+
+    def store_into_database(self, json_obj):
+        if not self.is_duplicate(json_obj):
+            self.mongo_connection.insert_one(json_obj, self.MONGO_COLLECTION)
+
+    def is_duplicate(self, json_obj) -> bool:
+        search_query = {}
+        for search_parameter in self.DB_SEARCH_PARAMETERS:
+            search_query[search_parameter] = json_obj[search_parameter]
+
+        return self.mongo_connection.is_document_present(search_query, self.MONGO_COLLECTION)
 
 
 class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
@@ -62,15 +74,15 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
 
 
 class NewsArticleJsonObjectNameGenerator(JsonObjectNameGenerator):
-    DATE_FORMAT = '%Y-%m-%dT%H.%M.%S'
+    DATETIME_FORMAT = '%Y-%m-%dT%H.%M.%S'
 
     def format_filename(self, json_obj):
         source = json_obj['source']
-        publish_date = json_obj['publish_date']
-        publish_date = self.date_to_string(publish_date)
+        publish_datetime = json_obj['publish_datetime']
+        publish_datetime = self.date_to_string(publish_datetime)
 
-        filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_date, self.SUFFIX)
+        filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_datetime, self.SUFFIX)
         return filename
 
-    def date_to_string(self, publish_date):
-        return publish_date.strftime(self.DATE_FORMAT)
+    def date_to_string(self, publish_datetime):
+        return publish_datetime.strftime(self.DATETIME_FORMAT)

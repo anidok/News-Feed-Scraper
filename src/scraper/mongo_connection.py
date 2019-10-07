@@ -38,6 +38,13 @@ class MongoConnection:
         collection = self.database[collection_str]
         collection.insert_one(document)
 
+    def is_document_present(self, search_query, collection_str) -> bool:
+        self.connect()
+        collection = self.database[collection_str]
+        count = collection.count_documents(search_query)
+
+        return count > 0
+
     def __del__(self):
         if self.client is not None:
             self.client = None

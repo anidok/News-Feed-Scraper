@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 from typing import List
 from newspaper import news_pool
-from news_paper import NewsPaper
+from .news_paper import NewsPaper
 
 
 class NewsFeed:
