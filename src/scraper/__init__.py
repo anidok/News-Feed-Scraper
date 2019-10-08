@@ -4,3 +4,4 @@ from .news_app import *
 from .news_article import *
 from .datetime_provider import *
 from .cryptography_helper import *
+from .article_error_log import *

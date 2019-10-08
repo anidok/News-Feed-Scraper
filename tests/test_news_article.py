@@ -12,7 +12,7 @@ class TestNewsArticle(unittest.TestCase):
         self.datetime_provider = mock(DateTimeProvider)
         self.now = datetime.now()
         when(self.datetime_provider).get_current_datetime().thenReturn(self.now)
-        self.create_mock_source_article()
+        self.source_article = self.create_mock_source_article()
         when(self.source_article).parse()
         when(self.source_article).nlp()
 
@@ -27,12 +27,14 @@ class TestNewsArticle(unittest.TestCase):
         self.assert_output(self.source_article, news_article_output)
 
     def create_mock_source_article(self):
-        self.source_article = mock(Article)
-        self.source_article.authors = ['someauthor']
-        self.source_article.title = 'sometitle'
-        self.source_article.text = 'somebody'
-        self.source_article.keywords = ['sometopic']
-        self.source_article.publish_date = self.now
+        source_article = mock(Article)
+        source_article.authors = ['someauthor']
+        source_article.title = 'sometitle'
+        source_article.text = 'somebody'
+        source_article.keywords = ['sometopic']
+        source_article.publish_date = self.now
+
+        return source_article
 
     def assert_output(self, expected: Article, actual: NewsArticle):
         self.assertEqual(expected.authors, actual['authors'])
