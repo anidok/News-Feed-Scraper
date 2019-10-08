@@ -56,7 +56,7 @@ class NewsApp:
             logging.info("End Time: %s", end_time)
 
             elapsed = (end_time - start_time).seconds
-            logging.info("Total elapsed time: %s", elapsed)
+            logging.info("Total elapsed time: %s seconds", elapsed)
 
         # pylint: disable=broad-except
         except Exception as exception:
@@ -64,7 +64,7 @@ class NewsApp:
 
             end_time = datetime.now()
             elapsed = (end_time - start_time).seconds
-            logging.info("Total elapsed time: %s", elapsed)
+            logging.info("Total elapsed time: %s seconds", elapsed)
 
     @classmethod
     def apply_logging_level(cls):
@@ -101,3 +101,5 @@ class NewsApp:
         with open(error_log_file_path, 'w') as file:
             for error_log in self.error_logs:
                 file.write("{0}|{1}|{2}\n".format(error_log.url, error_log.source, error_log.error_message))
+
+        logging.info('Created error log file.')
