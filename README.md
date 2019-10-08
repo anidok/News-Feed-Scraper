@@ -21,7 +21,7 @@ The system will crawl through all of these sites, extract individual news and st
 
 ## How to setup and run tests/lint
 
-Make sure python3.7 is installed and added to path.
+Make sure python3.7 is installed and added to path. If not installed, the installation setup has been described [below](https://github.com/anidok/News-Feed-Scraper#debugging-problems).
     
     python --version
     
@@ -122,5 +122,3 @@ On Linux
      
 Python3.7 should now be compiled with proper headers and app should run fine.
      
-
-
