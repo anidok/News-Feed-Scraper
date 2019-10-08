@@ -2,6 +2,7 @@ import os
 import abc
 from datetime import date
 from .mongo_connection import MongoConnection
+from .datetime_provider import DateTimeProvider
 
 
 class FileWriter:
@@ -59,8 +60,7 @@ class JsonObjectNameGenerator(metaclass=abc.ABCMeta):
         self.output_dir = self.create_output_directory()
 
     def create_output_directory(self):
-        today = date.today()
-        dir_suffix = today.strftime("%Y-%m-%d")
+        dir_suffix = DateTimeProvider.get_current_date_formatted_string()
         output_dir = "{0}/{1}/".format(self.output_root_dir, dir_suffix)
 
         if not os.path.exists(output_dir):
@@ -79,10 +79,7 @@ class NewsArticleJsonObjectNameGenerator(JsonObjectNameGenerator):
     def format_filename(self, json_obj):
         source = json_obj['source']
         publish_datetime = json_obj['publish_datetime']
-        publish_datetime = self.date_to_string(publish_datetime)
+        publish_datetime_str = DateTimeProvider.datetime_to_str(publish_datetime)
 
-        filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_datetime, self.SUFFIX)
+        filename = "{0}{1}_{2}{3}".format(self.output_dir, source, publish_datetime_str, self.SUFFIX)
         return filename
-
-    def date_to_string(self, publish_datetime):
-        return publish_datetime.strftime(self.DATETIME_FORMAT)
