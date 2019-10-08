@@ -3,6 +3,7 @@ import logging
 from typing import List
 from datetime import datetime
 from environs import Env
+import nltk
 from .input import NewsFeedInputHandler
 from .output import JsonObjectOutputHandler
 from .news_paper import NewsPaper
@@ -11,6 +12,9 @@ from .article_error_log import ArticleErrorLog
 from .mongo_connection_settings import MongoConnectionSettings
 from .mongo_connection import MongoConnection
 from .datetime_provider import DateTimeProvider
+
+# This is downloaded only the first time and later it uses the cache.
+nltk.download('punkt')
 
 
 class NewsApp:
