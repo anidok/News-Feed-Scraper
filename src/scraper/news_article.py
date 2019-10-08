@@ -1,20 +1,25 @@
-from datetime import datetime
-from model import Model
-from json_pickle_decimal import JsonPickleDecimal
+from .model import Model
+from .json_pickle_decimal import JsonPickleDecimal
+from .datetime_provider import DateTimeProvider
 
 
 # pylint: disable=too-many-instance-attributes
 class NewsArticle(Model):
-    OUTPUT_ATTRS = ['authors', 'source', 'current_date', 'publish_date', 'title', 'body', 'topics']
+    OUTPUT_ATTRS = ['authors', 'source', 'current_date', 'publish_date', 'publish_time', 'publish_datetime', 'title', 'body', 'topics']
+    DATE_FORMAT = '%Y-%m-%d'
+    TIME_FORMAT = '%H:%M:%S'
 
     def __init__(self, *initial_data, **kwargs):
         self.url = None
         self.source = None
         self.source_article = None
+        self.datetime_provider: DateTimeProvider = None
 
         self.authors = None
         self.current_date = None
         self.publish_date = None
+        self.publish_time = None
+        self.publish_datetime = None
         self.title = None
         self.body = None
         self.category = None
@@ -41,8 +46,13 @@ class NewsArticle(Model):
 
     def populate_attributes_from_newspaper_article(self, article):
         self.authors = article.authors
-        self.publish_date = article.publish_date
-        self.current_date = datetime.now()
+        self.current_date = self.datetime_provider.get_current_datetime()
         self.title = article.title
         self.body = article.text
         self.topics = article.keywords
+        self.populate_datetime_attributes(article.publish_date)
+
+    def populate_datetime_attributes(self, publish_date):
+        self.publish_datetime = publish_date
+        self.publish_date = publish_date.strftime(self.DATE_FORMAT)
+        self.publish_time = publish_date.strftime(self.TIME_FORMAT)

@@ -1,7 +1,7 @@
 import unittest
 import argparse
 from mockito import mock, unstub, verify, kwargs, when
-from src.input import NewsFeedInputHandler
+from src.scraper.input import NewsFeedInputHandler
 
 
 class TestInputHandler(unittest.TestCase):

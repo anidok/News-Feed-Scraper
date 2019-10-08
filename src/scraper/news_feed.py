@@ -1,13 +1,18 @@
+import logging
+from datetime import datetime, date
 from typing import List
 from newspaper import news_pool
-from news_paper import NewsPaper
+from .news_paper import NewsPaper
 
 
 class NewsFeed:
     THREADS_PER_NEWS_SOURCE = 10
+    SUMMARY_FILE = 'summary.txt'
+    DEFAULT_OUTPUT_DIR = '.'
 
-    def __init__(self, papers: List[NewsPaper] = None):
+    def __init__(self, papers: List[NewsPaper] = None, output_root_dir=None):
         self.newspapers = papers if papers is not None else []
+        self.output_root_dir = output_root_dir if output_root_dir is not None else self.DEFAULT_OUTPUT_DIR
 
     def add_newspaper(self, paper):
         self.newspapers.append(paper)
@@ -19,12 +24,17 @@ class NewsFeed:
         self.download_all_articles()
         self.populate_attributes_to_newspapers()
         self.process_all_newspaper_articles()
+        self.summarize_articles()
 
     def download_all_articles(self):
+        logging.info("Downloading all articles...")
+
         papers = self.create_source_feed_list()
         news_pool.set(papers, threads_per_source=self.THREADS_PER_NEWS_SOURCE)
         news_pool.join()
-        print("Downloaded all news articles.")
+
+        logging.info("Download complete.")
+        logging.info(datetime.now())
 
     def create_source_feed_list(self):
         papers = []
@@ -40,5 +50,17 @@ class NewsFeed:
             news_paper.article_count = len(news_paper.articles)
 
     def process_all_newspaper_articles(self):
+        logging.info("Processing all articles..")
         for newspaper in self.newspapers:
             newspaper.process_articles()
+        logging.info("Processed all articles.")
+
+    def summarize_articles(self):
+        today = date.today()
+        dir_suffix = today.strftime("%Y-%m-%d")
+        summary_file_path = self.output_root_dir + '/' + dir_suffix + '/' + self.SUMMARY_FILE
+        with open(summary_file_path, 'w') as file:
+            for news_paper in self.newspapers:
+                file.write("{0} - {1}\n".format(news_paper.brand, news_paper.article_count))
+
+        logging.info('Stored download summary to %s', self.SUMMARY_FILE)
