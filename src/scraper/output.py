@@ -1,6 +1,5 @@
 import os
 import abc
-from datetime import date
 from .mongo_connection import MongoConnection
 from .datetime_provider import DateTimeProvider
 
