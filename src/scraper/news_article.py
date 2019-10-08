@@ -1,4 +1,3 @@
-from datetime import datetime
 from .model import Model
 from .json_pickle_decimal import JsonPickleDecimal
 from .datetime_provider import DateTimeProvider

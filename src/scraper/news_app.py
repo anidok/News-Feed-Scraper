@@ -20,6 +20,7 @@ class NewsApp:
     def __init__(self):
         self.error_logs: List[ArticleErrorLog] = []
 
+    # pylint: disable=too-many-locals
     def accept(self):
         self.apply_logging_level()
         self.load_env_vars()

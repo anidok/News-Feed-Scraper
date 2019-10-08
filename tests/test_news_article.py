@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 from newspaper import Article
-from mockito import mock, unstub, verify, kwargs, when
+from mockito import mock, unstub, verify, when
 from src.scraper.news_article import NewsArticle
 from src.scraper.datetime_provider import DateTimeProvider
 
@@ -23,8 +23,8 @@ class TestNewsArticle(unittest.TestCase):
         news_article_output = news_article.output_obj()
 
         verify(self.source_article).parse()
-        verify(self.source_article).nlp()        
-        self.assert_output(self.source_article, news_article_output)     
+        verify(self.source_article).nlp()
+        self.assert_output(self.source_article, news_article_output)
 
     def create_mock_source_article(self):
         self.source_article = mock(Article)
