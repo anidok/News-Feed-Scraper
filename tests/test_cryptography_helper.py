@@ -1,5 +1,5 @@
 import unittest
-from mockito import mock, unstub, verify, ANY, when
+from mockito import unstub
 from src.scraper.cryptography_helper import CryptographyHelper
 
 

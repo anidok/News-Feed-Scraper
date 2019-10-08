@@ -1,6 +1,8 @@
 from cryptography.fernet import Fernet
 
+
 KEY_PATH = 'keys/key.key'
+
 
 class CryptographyHelper:
     @classmethod
