@@ -98,3 +98,29 @@ The script will run for some time (~mins) depending on the count of sources we p
 For functionality testing, It is advised to provide a single source containing a small number of articles. `http://slate.com` is one preferred input for which it takes about 3 mins to scrape all articles on any given day. For testing multiple sources, `http://slate.com` and `https://www.reuters.com/places/india` are two example values and it takes about 8 mins to scrape articles from these 2 sources combined.
 
 Once the script execution completes, the output can be found in the local file system and MongoDB cluster.
+
+### Debugging Problems
+When running the app, it might give sqlite3 import error.
+
+              from _sqlite3 import *
+        ImportError: No module named '_sqlite3'
+        
+This may be because python3.7 was not compiled properly. The following stackoverflow link explains how to fix it. It explains for python3.6 but the same can be referred and replicated for python3.7 with minor changes.
+
+https://stackoverflow.com/questions/39907475/cannot-import-sqlite3-in-python3
+
+Modified commands from the above post for python 3.7
+
+On Linux     
+     
+     sudo apt-get install libsqlite3-dev
+     sudo apt-get remove python3.7
+     cd /tmp && wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz
+     tar -xvf Python-3.7.4.tgz
+     cd Python-3.7.4 && ./configure
+     make && sudo make install
+     
+Python3.7 should now be compiled with proper headers and app should run fine.
+     
+
+
