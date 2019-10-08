@@ -2,9 +2,9 @@ import traceback
 from typing import List
 import newspaper
 from .news_article import NewsArticle
-from .output import JsonObjectOutputHandler
-from .article_error_log import ArticleErrorLog
-from .datetime_provider import DateTimeProvider
+from .utils.output import JsonObjectOutputHandler
+from .models.article_error_log import ArticleErrorLog
+from .utils.datetime_provider import DateTimeProvider
 
 
 class NewsPaper:

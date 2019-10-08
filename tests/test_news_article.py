@@ -3,7 +3,7 @@ from datetime import datetime
 from newspaper import Article
 from mockito import mock, unstub, verify, when
 from src.scraper.news_article import NewsArticle
-from src.scraper.datetime_provider import DateTimeProvider
+from src.scraper.utils.datetime_provider import DateTimeProvider
 
 
 class TestNewsArticle(unittest.TestCase):

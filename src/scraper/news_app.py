@@ -2,16 +2,16 @@ import os
 import logging
 from typing import List
 from datetime import datetime
-from environs import Env
 import nltk
-from .input import NewsFeedInputHandler
-from .output import JsonObjectOutputHandler
+from environs import Env
+from .utils.input import NewsFeedInputHandler
+from .utils.output import JsonObjectOutputHandler
 from .news_paper import NewsPaper
 from .news_feed import NewsFeed
-from .article_error_log import ArticleErrorLog
-from .mongo_connection_settings import MongoConnectionSettings
-from .mongo_connection import MongoConnection
-from .datetime_provider import DateTimeProvider
+from .models.article_error_log import ArticleErrorLog
+from .utils.mongo_connection_settings import MongoConnectionSettings
+from .utils.mongo_connection import MongoConnection
+from .utils.datetime_provider import DateTimeProvider
 
 # This is downloaded only the first time and later it uses the cache.
 nltk.download('punkt')

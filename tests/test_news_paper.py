@@ -4,9 +4,9 @@ from typing import List
 from newspaper import Article
 from mockito import mock, unstub, verify, when, ANY
 from src.scraper.news_paper import NewsPaper
-from src.scraper.datetime_provider import DateTimeProvider
-from src.scraper.article_error_log import ArticleErrorLog
-from src.scraper.output import JsonObjectOutputHandler
+from src.scraper.utils.datetime_provider import DateTimeProvider
+from src.scraper.models.article_error_log import ArticleErrorLog
+from src.scraper.utils.output import JsonObjectOutputHandler
 
 
 class TestNewsArticle(unittest.TestCase):
