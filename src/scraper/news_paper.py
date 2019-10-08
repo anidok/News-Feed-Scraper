@@ -10,7 +10,7 @@ from .datetime_provider import DateTimeProvider
 class NewsPaper:
     # pylint: disable=too-many-instance-attributes,too-many-arguments
     def __init__(self, url, datetime_provider: DateTimeProvider, json_object_output_handler: JsonObjectOutputHandler,
-                 error_logs: List[ArticleErrorLog], paper=None, memoize_articles: bool = False):
+                 error_logs: List[ArticleErrorLog], paper=None, memoize_articles: bool = True):
         self.brand = None
         self.articles: List = []
         self.article_count = None
