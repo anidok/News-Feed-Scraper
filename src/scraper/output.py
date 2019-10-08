@@ -21,7 +21,7 @@ class JsonObjectOutputHandler(OutputHandler):
     MONGO_COLLECTION = 'articles'
     DB_SEARCH_PARAMETERS = ['title', 'publish_date']
 
-    def __init__(self, output_root_dir=None, mongo_connection: MongoConnection = None, file_writer: FileWriter = None, object_name_generator=None):
+    def __init__(self, output_root_dir, mongo_connection: MongoConnection, file_writer: FileWriter = None, object_name_generator=None):
         self.output_root_dir = output_root_dir
         self.mongo_connection = mongo_connection
 
