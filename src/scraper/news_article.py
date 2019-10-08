@@ -1,6 +1,7 @@
 from datetime import datetime
 from .model import Model
 from .json_pickle_decimal import JsonPickleDecimal
+from .datetime_provider import DateTimeProvider
 
 
 # pylint: disable=too-many-instance-attributes
@@ -13,6 +14,7 @@ class NewsArticle(Model):
         self.url = None
         self.source = None
         self.source_article = None
+        self.datetime_provider: DateTimeProvider = None
 
         self.authors = None
         self.current_date = None
@@ -45,7 +47,7 @@ class NewsArticle(Model):
 
     def populate_attributes_from_newspaper_article(self, article):
         self.authors = article.authors
-        self.current_date = datetime.now()
+        self.current_date = self.datetime_provider.get_current_datetime()
         self.title = article.title
         self.body = article.text
         self.topics = article.keywords

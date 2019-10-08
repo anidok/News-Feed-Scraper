@@ -4,15 +4,18 @@ import newspaper
 from .news_article import NewsArticle
 from .output import JsonObjectOutputHandler
 from .article_error_log import ArticleErrorLog
+from .datetime_provider import DateTimeProvider
 
 
 class NewsPaper:
-    # pylint: disable=too-many-instance-attributes
-    def __init__(self, url, json_object_output_handler: JsonObjectOutputHandler, error_logs: List[ArticleErrorLog], memoize_articles: bool = False):
+    # pylint: disable=too-many-instance-attributes,too-many-arguments
+    def __init__(self, url, datetime_provider: DateTimeProvider, json_object_output_handler: JsonObjectOutputHandler,
+                 error_logs: List[ArticleErrorLog], memoize_articles: bool = False):
         self.brand = None
         self.articles: List = []
         self.article_count = None
 
+        self.datetime_provider = datetime_provider
         self.json_object_output_handler = json_object_output_handler
         self.url = url
         self.error_logs = error_logs
@@ -22,7 +25,7 @@ class NewsPaper:
     def process_articles(self):
         for article in self.articles:
             try:
-                news_article = NewsArticle(url=self.url, source=self.brand, source_article=article)
+                news_article = NewsArticle(url=self.url, source=self.brand, datetime_provider=self.datetime_provider, source_article=article)
                 news_article.build()
 
                 json_obj = news_article.output_obj()

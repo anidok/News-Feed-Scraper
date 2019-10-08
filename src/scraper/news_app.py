@@ -10,6 +10,7 @@ from .news_feed import NewsFeed
 from .article_error_log import ArticleErrorLog
 from .mongo_connection_settings import MongoConnectionSettings
 from .mongo_connection import MongoConnection
+from .datetime_provider import DateTimeProvider
 
 
 class NewsApp:
@@ -38,7 +39,8 @@ class NewsApp:
             source_list = news_feed_input_handler.get_all_sources()
             json_object_output_handler = JsonObjectOutputHandler(output_root_dir=root_dir, mongo_connection=mongo_connection)
 
-            papers = self.create_newspaper_objects(source_list, json_object_output_handler)
+            datetime_provider = DateTimeProvider()
+            papers = self.create_newspaper_objects(source_list, json_object_output_handler, datetime_provider)
 
             news_feed = NewsFeed(papers, root_dir)
 
@@ -83,10 +85,10 @@ class NewsApp:
         # Read .env into os.environ
         env.read_env()
 
-    def create_newspaper_objects(self, source_list, json_object_output_handler):
+    def create_newspaper_objects(self, source_list, json_object_output_handler, datetime_provider):
         papers: List[NewsPaper] = []
         for source in source_list:
-            papers.append(NewsPaper(source, json_object_output_handler, self.error_logs))
+            papers.append(NewsPaper(source, datetime_provider, json_object_output_handler, self.error_logs))
 
         return papers
 
@@ -94,9 +96,7 @@ class NewsApp:
         today = date.today()
         dir_suffix = today.strftime("%Y-%m-%d")
         error_log_file_path = output_root_dir + '/' + dir_suffix + '/' + self.ERROR_LOG_FILE
-        count = 1
 
         with open(error_log_file_path, 'w') as file:
             for error_log in self.error_logs:
-                file.write("{0}.{1}|{2}|{3}\n".format(count, error_log.url, error_log.source, error_log.error_message))
-                count += 1
+                file.write("{0}|{1}|{2}\n".format(error_log.url, error_log.source, error_log.error_message))
