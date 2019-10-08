@@ -1,6 +1,6 @@
 import unittest
 from mockito import unstub
-from src.scraper.cryptography_helper import CryptographyHelper
+from src.scraper.utils.cryptography_helper import CryptographyHelper
 
 
 class TestCryptographyHelper(unittest.TestCase):

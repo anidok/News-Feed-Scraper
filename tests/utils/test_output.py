@@ -3,7 +3,7 @@ import json
 from datetime import datetime, date
 from mockito import mock, unstub, verify, ANY, when
 from tests import datetime_converter
-from src.scraper.output import JsonObjectOutputHandler
+from src.scraper.utils.output import JsonObjectOutputHandler
 
 
 class TestOutput(unittest.TestCase):

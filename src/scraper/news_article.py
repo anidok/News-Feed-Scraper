@@ -1,6 +1,6 @@
-from .model import Model
-from .json_pickle_decimal import JsonPickleDecimal
-from .datetime_provider import DateTimeProvider
+from .models.model import Model
+from .utils.json_pickle_decimal import JsonPickleDecimal
+from .utils.datetime_provider import DateTimeProvider
 
 
 # pylint: disable=too-many-instance-attributes
