@@ -40,6 +40,7 @@ class NewsArticle(Model):
         return values
 
     def build(self):
+        # Parse Article object from newspaper library and use it to populate attributes
         self.source_article.parse()
         self.source_article.nlp()
         self.populate_attributes_from_newspaper_article(self.source_article)

@@ -36,7 +36,10 @@ class NewsFeed:
         logging.info("Downloading all articles...")
 
         papers = self.create_source_feed_list()
+
         news_pool.set(papers, threads_per_source=self.THREADS_PER_NEWS_SOURCE)
+
+        # Download feed from all sources in parallel threads
         news_pool.join()
 
         logging.info("Download complete.")

@@ -29,6 +29,7 @@ class NewsApp:
         logging.info('Started scraping from all sources.')
 
         try:
+            # Create and inject all dependencies
             news_feed_input_handler = NewsFeedInputHandler()
             args_map = news_feed_input_handler.fetch_arguments()
 
