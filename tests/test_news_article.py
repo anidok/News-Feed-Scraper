@@ -16,7 +16,7 @@ class TestNewsArticle(unittest.TestCase):
         when(self.source_article).parse()
         when(self.source_article).nlp()
 
-    def test_input_handler_parses_arguments(self):
+    def test_news_article_parses_with_success(self):
         news_article = NewsArticle(url='someurl', source='somesource', datetime_provider=self.datetime_provider, source_article=self.source_article)
 
         news_article.build()

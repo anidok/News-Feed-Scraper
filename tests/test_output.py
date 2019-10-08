@@ -12,7 +12,7 @@ class TestOutput(unittest.TestCase):
         self.mock_file_writer = mock()
         self.mock_mongo_connection = mock()
 
-    def test_csv_output_writer(self):
+    def test_json_output_handler_inserts_document(self):
         output_root_dir = 'F:/Test'
         target = JsonObjectOutputHandler(output_root_dir, self.mock_mongo_connection, self.mock_file_writer)
 
