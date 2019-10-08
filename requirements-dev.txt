@@ -4,6 +4,7 @@ simplejson==3.16.0
 pymongo==3.9.0
 dnspython==1.16.0
 environs==6.0.0
+cryptography==2.7
 
 # Dev specific dependencies
 pylint==2.3.0
